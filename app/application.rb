@@ -12,7 +12,7 @@ class Application
         resp.write "#{item}\n"
       end
     elsif req.path.match(/cart/)
-      
+      resp.write show_cart
     elsif req.path.match(/search/)
       search_term = req.params["q"]
       resp.write handle_search(search_term)
@@ -24,8 +24,13 @@ class Application
   end
   
   def show_cart
-    @@carts.collect
-
+    if @@cart.empty?
+      "Your cart is empty"
+    else  
+      @@cart.join("\n")
+    end
+  end
+  
   def handle_search(search_term)
     if @@items.include?(search_term)
       return "#{search_term} is one of our items"
